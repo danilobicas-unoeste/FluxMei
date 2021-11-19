@@ -17,6 +17,7 @@ namespace LivroCaixa.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         public AccountController()
         {
@@ -75,11 +76,24 @@ namespace LivroCaixa.Controllers
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
+            
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    {
+                        var usuario = db.Users.Where(u => u.Email == model.Email).FirstOrDefault();
+                        if ((usuario != null) && (usuario.IdMei > 0))
+                        {
+                            Session["mei"] = usuario.IdMei;
+                            return RedirectToLocal(returnUrl);
+                        }
+                        else
+                        {
+                            return View("ErrorIdMeiNaoEncontrado");
+                        }
+                        break;
+                    }
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -141,7 +155,14 @@ namespace LivroCaixa.Controllers
         {
             return View();
         }
-
+        //Aqui é para o registro de um usuário como NOVO MEI
+        //a outra tela de cadastro seria para adicionar um usuário para o MEI que está logado no momento
+        // GET: /Account/Register_NovoMei
+        [AllowAnonymous]
+        public ActionResult Register_NovoMei()
+        {
+            return View();
+        }
         //
         // POST: /Account/Register
         [HttpPost]
@@ -172,6 +193,46 @@ namespace LivroCaixa.Controllers
             return View(model);
         }
 
+        //
+        // POST: /Account/Register
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Register_NovoMei(Registro_NovoMeiViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Nome = model.Nome };
+                var mei = new Mei
+                {
+                    NomeEmpresa = model.NomeEmpresa,
+                    Cnpj = model.Cnpj,
+                    Logradouto = model.Logradouto,
+                    NomeProprietario = model.NomeProprietario,
+                    Telefone = model.Telefone
+                };
+                db.Meis.Add(mei);
+                db.SaveChanges();
+                user.IdMei = mei.IdMei;
+                var result = await UserManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    
+                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+                    // Send an email with this link
+                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                    return RedirectToAction("Index", "Home");
+                }
+                AddErrors(result);
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]

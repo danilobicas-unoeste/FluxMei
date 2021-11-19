@@ -10,6 +10,7 @@ using LivroCaixa.Models;
 
 namespace LivroCaixa.Controllers
 {
+    [Authorize]
     public class MovimentoController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

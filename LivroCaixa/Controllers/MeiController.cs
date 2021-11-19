@@ -7,17 +7,35 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using LivroCaixa.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace LivroCaixa.Controllers
 {
+    [Authorize]
     public class MeiController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationUserManager _userManager;
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
 
         // GET: Mei
         public ActionResult Index()
         {
-            return View(db.Meis.ToList());
+            var userid = User.Identity.GetUserId();
+            ApplicationUser usuario = db.Users.Find(userid);
+            return View(db.Meis.Where(u=>u.IdMei == usuario.IdMei).ToList());
         }
 
         // GET: Mei/Details/5

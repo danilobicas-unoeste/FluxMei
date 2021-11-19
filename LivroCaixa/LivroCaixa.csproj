@@ -194,6 +194,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MeiController.cs" />
     <Compile Include="Controllers\MovimentoController.cs" />
+    <Compile Include="Controllers\RelatoriosController.cs" />
     <Compile Include="Controllers\TipoMovimentoController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -207,6 +208,8 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Mei.cs" />
     <Compile Include="Models\Movimento.cs" />
+    <Compile Include="Models\PeriodoViewModel.cs" />
+    <Compile Include="Models\Registro_NovoMeiViewModel.cs" />
     <Compile Include="Models\TipoMovimento.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -283,6 +286,10 @@
     <Content Include="Views\Movimento\Details.cshtml" />
     <Content Include="Views\Movimento\Edit.cshtml" />
     <Content Include="Views\Movimento\Index.cshtml" />
+    <Content Include="Views\Shared\_LayoutLogado.cshtml" />
+    <Content Include="Views\Account\Register_NovoMei.cshtml" />
+    <Content Include="Views\Shared\ErrorIdMeiNaoEncontrado.cshtml" />
+    <Content Include="Views\Relatorios\Periodo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
