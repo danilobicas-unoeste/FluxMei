@@ -5,6 +5,7 @@ namespace FluxMei.Models
 {
     public partial class Movimento
     {
+        [primarykey]
         public decimal IdMovimento { get; set; }
         public string Descicao { get; set; }
         public decimal Total { get; set; }

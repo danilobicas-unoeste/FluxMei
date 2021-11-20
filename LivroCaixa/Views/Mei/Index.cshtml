@@ -1,0 +1,69 @@
+﻿@model IEnumerable<LivroCaixa.Models.Mei>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>MEI's Cadastrados</h2>
+
+<p>
+    @Html.ActionLink("Cadastrar um Novo", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Login)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Senha)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NomeEmpresa)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Logradouto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cnpj)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NomeProprietario)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Telefone)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Login)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Senha)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NomeEmpresa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Logradouto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cnpj)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NomeProprietario)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Telefone)
+        </td>
+        <td>
+            @Html.ActionLink("Alterar", "Edit", new { id=item.IdMei }) |
+            @Html.ActionLink("Visualizar", "Details", new { id=item.IdMei }) |
+            @Html.ActionLink("Excluir", "Delete", new { id=item.IdMei })
+        </td>
+    </tr>
+}
+
+</table>

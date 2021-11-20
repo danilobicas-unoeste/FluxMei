@@ -1,0 +1,75 @@
+﻿@model LivroCaixa.Models.Movimento
+
+@{
+    Layout = "~/Views/Shared/_LayoutLogado.cshtml";
+    ViewBag.Title = "Visualizando";
+}
+
+<h2>Visualização do Movimento</h2>
+
+<div>
+    <h4>Movimento</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Mei.Login)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Mei.Login)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TipoMovimento.descricao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TipoMovimento.descricao)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Descicao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Descicao)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Total)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Total)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Data)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Data)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Valor)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Valor)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.userName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.userName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Alterar", "Edit", new { id = Model.IdMovimento }) |
+    @Html.ActionLink("Voltar", "Index")
+</p>

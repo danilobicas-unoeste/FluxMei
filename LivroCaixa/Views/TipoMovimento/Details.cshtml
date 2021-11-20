@@ -1,0 +1,42 @@
+﻿@model LivroCaixa.Models.TipoMovimento
+
+@{
+    Layout = "~/Views/Shared/_LayoutLogado.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>TipoMovimento</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.descricao)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.descricao)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.receitadespesa)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.receitadespesa)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.tipoid }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>
