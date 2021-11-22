@@ -18,8 +18,9 @@ namespace LivroCaixa.Controllers
         // GET: Movimento
         public ActionResult Index()
         {
-            var movimentoes = db.Movimentoes.Include(m => m.Mei).Include(m => m.TipoMovimento);
-            return View(movimentoes.ToList());
+            int mei = int.Parse(Session["mei"].ToString());
+            var movimentoes = db.Movimentoes.Where(m=>m.IdMei == mei).Include(m => m.Mei).Include(m => m.TipoMovimento);
+            return View(movimentoes.OrderByDescending(m=>m.Data).Take(50).ToList());
         }
 
         // GET: Movimento/Details/5
@@ -40,7 +41,7 @@ namespace LivroCaixa.Controllers
         // GET: Movimento/Create
         public ActionResult Create()
         {
-            ViewBag.IdMei = new SelectList(db.Meis, "IdMei", "Login");
+            //ViewBag.IdMei = new SelectList(db.Meis, "IdMei", "Login");
             ViewBag.TipoMovimentoId = new SelectList(db.TipoMovimentoes, "tipoid", "descricao");
             return View();
         }
@@ -52,11 +53,13 @@ namespace LivroCaixa.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "IdMovimento,Descicao,Total,Data,Valor,TipoMovimentoId,IdMei,userName")] Movimento movimento)
         {
+            int mei = int.Parse(Session["mei"].ToString());
+            movimento.IdMei = mei;
             if (ModelState.IsValid)
             {
                 db.Movimentoes.Add(movimento);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("IndexLogado");
             }
 
             ViewBag.IdMei = new SelectList(db.Meis, "IdMei", "Login", movimento.IdMei);

@@ -20,6 +20,8 @@ namespace LivroCaixa.Models
         
         public virtual TipoMovimento TipoMovimento { get; set; }
         [ForeignKey("Mei")]
+        [Required]
+        [Range(double.Epsilon, double.MaxValue,ErrorMessage ="Nenhum Mei está logado para associar este movimento")]
         public int IdMei { get; set; }
         public virtual Mei Mei { get; set; }
         /// <summary>

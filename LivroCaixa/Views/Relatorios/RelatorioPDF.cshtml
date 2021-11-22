@@ -1,0 +1,52 @@
+﻿@model LivroCaixa.Models.RelatorioViewModel
+
+@{
+    ViewBag.Title = "Relatório de Movimentos";
+    Layout = "~/Views/Shared/_PDFLayout.cshtml";
+}
+<div class="cabecalho" width="100%">
+    <h2>
+        Relatório de Movimentos por Período (PDF)
+    </h2>
+</div>
+
+
+<table class="table" width="100%">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.movimentos.First().TipoMovimento.descricao)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.movimentos.First().Descicao)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.movimentos.First().Data)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.movimentos.First().Valor)
+        </th>
+    </tr>
+
+    @foreach (var item in Model.movimentos)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TipoMovimento.descricao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descicao)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Data)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Valor)
+            </td>
+        </tr>
+    }
+</table>
+<h2>
+    <p>Saldo no Período: @Model.saldo</p>
+</h2>

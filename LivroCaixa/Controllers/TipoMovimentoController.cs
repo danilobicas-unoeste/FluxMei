@@ -18,7 +18,8 @@ namespace LivroCaixa.Controllers
         // GET: TipoMovimento
         public ActionResult Index()
         {
-            return View(db.TipoMovimentoes.ToList());
+            int mei = int.Parse(Session["mei"].ToString());
+            return View(db.TipoMovimentoes.Where(t=>t.IdMei == mei).ToList());
         }
 
         // GET: TipoMovimento/Details/5
@@ -49,8 +50,10 @@ namespace LivroCaixa.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "tipoid,descricao,receitadespesa")] TipoMovimento tipoMovimento)
         {
+            tipoMovimento.IdMei = int.Parse(Session["mei"].ToString());
             if (ModelState.IsValid)
             {
+                
                 db.TipoMovimentoes.Add(tipoMovimento);
                 db.SaveChanges();
                 return RedirectToAction("Index");

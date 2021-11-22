@@ -4,19 +4,12 @@
     ViewBag.Title = "Index";
 }
 
-<h2>MEI's Cadastrados</h2>
+<h2>Dados do MEI</h2>
 
-<p>
-    @Html.ActionLink("Cadastrar um Novo", "Create")
-</p>
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Login)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Senha)
-        </th>
+       
+       
         <th>
             @Html.DisplayNameFor(model => model.NomeEmpresa)
         </th>
@@ -37,12 +30,7 @@
 
 @foreach (var item in Model) {
     <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Login)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Senha)
-        </td>
+       
         <td>
             @Html.DisplayFor(modelItem => item.NomeEmpresa)
         </td>

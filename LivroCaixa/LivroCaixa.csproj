@@ -223,6 +223,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Mei.cs" />
+    <Compile Include="Models\RelatorioViewModel.cs" />
     <Compile Include="Models\Movimento.cs" />
     <Compile Include="Models\PeriodoViewModel.cs" />
     <Compile Include="Models\Registro_NovoMeiViewModel.cs" />
@@ -307,6 +308,7 @@
     <Content Include="Views\Shared\ErrorIdMeiNaoEncontrado.cshtml" />
     <Content Include="Views\Relatorios\Periodo.cshtml" />
     <Content Include="Views\Home\IndexLogado.cshtml" />
+    <Content Include="Views\Relatorios\RelatorioPDF.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

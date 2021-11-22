@@ -65,6 +65,9 @@ namespace LivroCaixa.Models
     public class RegisterViewModel
     {
         [Required]
+        [Range(double.Epsilon,double.MaxValue,ErrorMessage ="Não existe nenhum MEI logado para associar a este usuário!!!")]
+        public int IdMei { get; set; }
+        [Required]
         [EmailAddress]
         [Display(Name = "Nome do Responsável pelo MEI")]
         public string Nome { get; set; }

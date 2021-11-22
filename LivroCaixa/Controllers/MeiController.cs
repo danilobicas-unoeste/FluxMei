@@ -102,7 +102,7 @@ namespace LivroCaixa.Controllers
             {
                 db.Entry(mei).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("IndexLogado");
             }
             return View(mei);
         }
@@ -115,7 +115,8 @@ namespace LivroCaixa.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Mei mei = db.Meis.Find(id);
-            if (mei == null)
+            int meilogado = int.Parse(Session["mei"].ToString());
+            if ((mei == null) || (mei.IdMei != meilogado))
             {
                 return HttpNotFound();
             }
@@ -128,8 +129,27 @@ namespace LivroCaixa.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Mei mei = db.Meis.Find(id);
-            db.Meis.Remove(mei);
-            db.SaveChanges();
+            int meilogado = int.Parse(Session["mei"].ToString());
+            if (meilogado == mei.IdMei)
+            {
+                var usuarios = db.Users.Where(u => u.IdMei == meilogado).ToList();
+                foreach(var u in usuarios)
+                {
+                    db.Users.Remove(u);
+                }
+                var tiposmov = db.TipoMovimentoes.Where(t => t.IdMei == meilogado).ToList();
+                foreach (var t in tiposmov) 
+                {
+                    db.TipoMovimentoes.Remove(t);
+                }
+                var movs = db.Movimentoes.Where(t => t.IdMei == meilogado).ToList();
+                foreach(var m in movs)
+                {
+                    db.Movimentoes.Remove(m);
+                }
+                db.Meis.Remove(mei);
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 

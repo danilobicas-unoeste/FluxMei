@@ -23,6 +23,8 @@ namespace LivroCaixa.Models
         [ForeignKey("Movimento")]
         public virtual  ICollection<Movimento> Movimento { get; set; }
         [ForeignKey("Mei")]
+        [Required]
+        [Range(double.Epsilon, double.MaxValue, ErrorMessage ="Nenhum MEI está logado para associar este novo tipo de movimento")]
         public int IdMei { get; set; }
         
         public virtual Mei Mei { get; set; }

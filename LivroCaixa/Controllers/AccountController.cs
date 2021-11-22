@@ -86,6 +86,7 @@ namespace LivroCaixa.Controllers
                         if ((usuario != null) && (usuario.IdMei > 0))
                         {
                             Session["mei"] = usuario.IdMei;
+                            Session["usuario"] = usuario.Nome;
                             return RedirectToAction("IndexLogado", "Home");
                         }
                         else
@@ -150,7 +151,7 @@ namespace LivroCaixa.Controllers
 
         //
         // GET: /Account/Register
-        [AllowAnonymous]
+        [Authorize]
         public ActionResult Register()
         {
             return View();
@@ -166,13 +167,16 @@ namespace LivroCaixa.Controllers
         //
         // POST: /Account/Register
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
+            int mei = int.Parse(Session["mei"].ToString());
+            model.IdMei = mei;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Nome = model.Nome };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Nome = model.Nome, IdMei=model.IdMei };
+                
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -184,7 +188,7 @@ namespace LivroCaixa.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("IndexLogado", "Home");
                 }
                 AddErrors(result);
             }
@@ -227,6 +231,7 @@ namespace LivroCaixa.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
                     Session["mei"] = mei.IdMei;
+                    Session["usuario"] = user.Nome;
                     return RedirectToAction("IndexLogado", "Home");
                 }
                 else if (mei.IdMei > 0)
