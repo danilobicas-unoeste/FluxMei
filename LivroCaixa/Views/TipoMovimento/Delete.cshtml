@@ -9,12 +9,12 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Delete</title>
+    <title>Excluir</title>
 </head>
 <body>
-    <h3>Are you sure you want to delete this?</h3>
+    <h3>Confirma Exclusão deste Tipo de Movimento?</h3>
     <div>
-        <h4>TipoMovimento</h4>
+        <h4>Tipo de Movimento</h4>
         <hr />
         <dl class="dl-horizontal">
             <dt>
@@ -30,7 +30,15 @@
             </dt>
     
             <dd>
-                @Html.DisplayFor(model => model.receitadespesa)
+                @if (Model.receitadespesa == "R")
+                {
+                    @Html.Display("Receita")
+                }
+                @if (Model.receitadespesa == "D")
+                { 
+                    @Html.Display("Despesa")
+                }
+
             </dd>
     
         </dl>

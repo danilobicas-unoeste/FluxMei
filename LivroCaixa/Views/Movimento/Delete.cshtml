@@ -12,13 +12,13 @@
     <h4>Movimento</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
+        @*<dt>
             @Html.DisplayNameFor(model => model.Mei.Login)
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.Mei.Login)
-        </dd>
+        </dd>*@
 
         <dt>
             @Html.DisplayNameFor(model => model.TipoMovimento.descricao)
@@ -60,13 +60,13 @@
             @Html.DisplayFor(model => model.Valor)
         </dd>
 
-        <dt>
+        @*<dt>
             @Html.DisplayNameFor(model => model.userName)
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.userName)
-        </dd>
+        </dd>*@
 
     </dl>
 
@@ -74,7 +74,7 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
+            <input type="submit" value="Excluir" class="btn btn-default" /> |
             @Html.ActionLink("Voltar", "Index")
         </div>
     }
