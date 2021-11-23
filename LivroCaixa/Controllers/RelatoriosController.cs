@@ -8,17 +8,18 @@ using System.Web.Mvc;
 
 namespace LivroCaixa.Controllers
 {
+    [Authorize]
     public class RelatoriosController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         // GET: Relatorios
-        public ActionResult Index()
+        public ActionResult Periodo()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult RelatorioPDF([Bind(Include = "DataInicial,DataFinal")] PeriodoViewModel periodo)
+        public ActionResult Periodo([Bind(Include = "DataInicial,DataFinal")] PeriodoViewModel periodo)
         {
             int mei = int.Parse(Session["mei"].ToString());
             RelatorioViewModel relatorio = new RelatorioViewModel();
@@ -40,7 +41,7 @@ namespace LivroCaixa.Controllers
             }
             relatorio.saldo = saldo;
             relatorio.movimentos = movimentos;
-            return View(movimentos);
+            return View("RelatorioPDF",relatorio);
         }
     }
 }

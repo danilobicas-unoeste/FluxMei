@@ -42,8 +42,11 @@ namespace LivroCaixa.Controllers
         public ActionResult Create()
         {
             //ViewBag.IdMei = new SelectList(db.Meis, "IdMei", "Login");
+            int mei = int.Parse(Session["mei"].ToString());
             ViewBag.TipoMovimentoId = new SelectList(db.TipoMovimentoes, "tipoid", "descricao");
-            return View();
+            Movimento movimento = new Movimento();
+            movimento.IdMei = mei;
+            return View(movimento);
         }
 
         // POST: Movimento/Create
@@ -54,12 +57,13 @@ namespace LivroCaixa.Controllers
         public ActionResult Create([Bind(Include = "IdMovimento,Descicao,Total,Data,Valor,TipoMovimentoId,IdMei,userName")] Movimento movimento)
         {
             int mei = int.Parse(Session["mei"].ToString());
+            movimento.userName = User.Identity.Name;
             movimento.IdMei = mei;
             if (ModelState.IsValid)
             {
                 db.Movimentoes.Add(movimento);
                 db.SaveChanges();
-                return RedirectToAction("IndexLogado");
+                return RedirectToAction("Index", "Movimento");
             }
 
             ViewBag.IdMei = new SelectList(db.Meis, "IdMei", "Login", movimento.IdMei);

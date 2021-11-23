@@ -91,6 +91,7 @@ namespace LivroCaixa.Controllers
                         }
                         else
                         {
+                            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
                             return View("ErrorIdMeiNaoEncontrado");
                         }
                         break;
@@ -154,7 +155,10 @@ namespace LivroCaixa.Controllers
         [Authorize]
         public ActionResult Register()
         {
-            return View();
+            int mei = int.Parse(Session["mei"].ToString());
+            RegisterViewModel register = new RegisterViewModel();
+            register.IdMei = mei;
+            return View(register);
         }
         //Aqui é para o registro de um usuário como NOVO MEI
         //a outra tela de cadastro seria para adicionar um usuário para o MEI que está logado no momento

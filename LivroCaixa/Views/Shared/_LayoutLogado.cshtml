@@ -39,7 +39,7 @@
                             <span class="icon glyphicon glyphicon-book"></span> Relatório <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="@Url.Action("Index","Relatorio")"><span class="icon glyphicon glyphicon-globe"></span> Por Período</a></li>
+                            <li><a href="@Url.Action("Periodo","Relatorios")"><span class="icon glyphicon glyphicon-globe"></span> Por Período</a></li>
                             
                         </ul>
                     </li>
@@ -47,7 +47,7 @@
                     <li>@Html.ActionLink("Sobre", "About", "Home")</li>
                     <li>@Html.ActionLink("Contate-nos", "Contact", "Home")</li>
                 </ul>
-                @*@Html.Partial("_LoginPartial")*@
+                @Html.Partial("_LoginPartial")
             </div>
         </div>
     </div>

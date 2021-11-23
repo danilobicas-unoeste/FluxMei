@@ -4,15 +4,9 @@
     Layout = "~/Views/Shared/_LayoutLogado.cshtml";
 }
 
-<!DOCTYPE html>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Novo Tipo de Movimento</title>
     <h4>Aqui você cadastra os tipos de Movimento (Receitas: Recebimento, parcelado, etc.... e Despesas: conta de água, energia, funcionário, etc)</h4>
-</head>
-<body>
+
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
     
@@ -22,9 +16,10 @@
         @Html.AntiForgeryToken()
         
     <div class="form-horizontal">
-        <h4>TipoMovimento</h4>
+        <h4>Tipo de Movimento</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model=> model.IdMei)
         <div class="form-group">
             @Html.LabelFor(model => model.descricao, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -36,7 +31,8 @@
         <div class="form-group">
             @Html.LabelFor(model => model.receitadespesa, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.receitadespesa, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownListFor(model => model.receitadespesa, new SelectList(ViewBag.receitadespesa, "Id", "Nome"), "Selecione entre Receita ou Despesa", new { @class = "form-control" })
+                @*@Html.EditorFor(model => model.receitadespesa, new { htmlAttributes = new { @class = "form-control" } })*@
                 @Html.ValidationMessageFor(model => model.receitadespesa, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -57,7 +53,5 @@
     }
     
     <div>
-        @Html.ActionLink("Back to List", "Index")
+        @Html.ActionLink("Voltar", "Index")
     </div>
-</body>
-</html>

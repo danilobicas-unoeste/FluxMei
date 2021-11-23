@@ -11,10 +11,11 @@ namespace LivroCaixa.Models
     public class TipoMovimento
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int tipoid { get; set; }
         [StringLength(50)]
         [Required]
-        [Display(Name ="Descrição")]
+        [Display(Name ="Descrição(Tipo)")]
         public string descricao { get; set; }
         [StringLength(1)]
         [Display(Name ="Tipo (Receita/Despesa")]
@@ -24,7 +25,7 @@ namespace LivroCaixa.Models
         public virtual  ICollection<Movimento> Movimento { get; set; }
         [ForeignKey("Mei")]
         [Required]
-        [Range(double.Epsilon, double.MaxValue, ErrorMessage ="Nenhum MEI está logado para associar este novo tipo de movimento")]
+        [Range(1, double.MaxValue, ErrorMessage ="Nenhum MEI está logado para associar este novo tipo de movimento")]
         public int IdMei { get; set; }
         
         public virtual Mei Mei { get; set; }

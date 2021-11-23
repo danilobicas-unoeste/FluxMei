@@ -12,6 +12,7 @@ namespace LivroCaixa.Controllers
         {
             return View();
         }
+
         [Authorize]
         public ActionResult IndexLogado()
         {

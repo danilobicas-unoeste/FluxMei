@@ -216,6 +216,10 @@
     <Compile Include="Migrations\202111201343418_nvo.Designer.cs">
       <DependentUpon>202111201343418_nvo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202111231855595_novo2.cs" />
+    <Compile Include="Migrations\202111231855595_novo2.Designer.cs">
+      <DependentUpon>202111231855595_novo2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ErrorViewModel.cs" />
@@ -228,10 +232,15 @@
     <Compile Include="Models\PeriodoViewModel.cs" />
     <Compile Include="Models\Registro_NovoMeiViewModel.cs" />
     <Compile Include="Models\TipoMovimento.cs" />
+    <Compile Include="NumeroBrasilAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\LivroCaixa.mdf" />
+    <Content Include="App_Data\LivroCaixa_log.ldf">
+      <DependentUpon>LivroCaixa.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
@@ -244,6 +253,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\customvalidations.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -309,10 +319,9 @@
     <Content Include="Views\Relatorios\Periodo.cshtml" />
     <Content Include="Views\Home\IndexLogado.cshtml" />
     <Content Include="Views\Relatorios\RelatorioPDF.cshtml" />
+    <Content Include="Views\Shared\_PDFLayout.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
   </ItemGroup>
@@ -329,6 +338,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202111201343418_nvo.resx">
       <DependentUpon>202111201343418_nvo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202111231855595_novo2.resx">
+      <DependentUpon>202111231855595_novo2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

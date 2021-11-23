@@ -40,7 +40,11 @@ namespace LivroCaixa.Controllers
         // GET: TipoMovimento/Create
         public ActionResult Create()
         {
-            return View();
+            var receitadespesa = new[] { new { Id = "R", Nome = "Receita" }, new { Id = "D", Nome = "Despesa" } };
+            ViewBag.receitadespesa = receitadespesa.ToList();
+            TipoMovimento tipomovimento = new TipoMovimento();
+            tipomovimento.IdMei = int.Parse(Session["mei"].ToString());
+            return View(tipomovimento);
         }
 
         // POST: TipoMovimento/Create
@@ -48,7 +52,7 @@ namespace LivroCaixa.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "tipoid,descricao,receitadespesa")] TipoMovimento tipoMovimento)
+        public ActionResult Create([Bind(Include = "tipoid,descricao,receitadespesa,IdMei")] TipoMovimento tipoMovimento)
         {
             tipoMovimento.IdMei = int.Parse(Session["mei"].ToString());
             if (ModelState.IsValid)
@@ -56,7 +60,7 @@ namespace LivroCaixa.Controllers
                 
                 db.TipoMovimentoes.Add(tipoMovimento);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index","TipoMovimento");
             }
 
             return View(tipoMovimento);
@@ -69,7 +73,15 @@ namespace LivroCaixa.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            var receitadespesa = new[] { new { Id = "R", Nome = "Receita" }, new { Id = "D", Nome = "Despesa" } };
+            ViewBag.receitadespesa = receitadespesa.ToList();
             TipoMovimento tipoMovimento = db.TipoMovimentoes.Find(id);
+            int mei = int.Parse(Session["mei"].ToString());
+            tipoMovimento.IdMei = mei;
+            if (tipoMovimento.IdMei != mei)
+            {
+                tipoMovimento = null;
+            }
             if (tipoMovimento == null)
             {
                 return HttpNotFound();
@@ -82,13 +94,13 @@ namespace LivroCaixa.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "tipoid,descricao,receitadespesa")] TipoMovimento tipoMovimento)
+        public ActionResult Edit([Bind(Include = "tipoid,descricao,receitadespesa,IdMei")] TipoMovimento tipoMovimento)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(tipoMovimento).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index","TipoMovimento");
             }
             return View(tipoMovimento);
         }
@@ -116,7 +128,7 @@ namespace LivroCaixa.Controllers
             TipoMovimento tipoMovimento = db.TipoMovimentoes.Find(id);
             db.TipoMovimentoes.Remove(tipoMovimento);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "TipoMovimento");
         }
 
         protected override void Dispose(bool disposing)

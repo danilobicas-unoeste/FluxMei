@@ -10,10 +10,18 @@ namespace LivroCaixa.Models
     public partial class Movimento
     {
         [Key]
-        public decimal IdMovimento { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int IdMovimento { get; set; }
+        [Display(Name = "Descrição")]
         public string Descicao { get; set; }
         public decimal Total { get; set; }
+        [Display(Name = "Data")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]
+        [DataType(DataType.Date, ErrorMessage = "Data em formato inválido")]
         public DateTime Data { get; set; }
+//        [DataType(DataType.Currency)]
+  //      [DisplayFormat(DataFormatString = "{0:C}", ApplyFormatInEditMode = true)]
+        [NumeroBrasil(DecimalRequerido =true,ErrorMessage ="Valor inválido",PontoMilharPermitido =true)]
         public decimal Valor { get; set; }
         [ForeignKey("TipoMovimento")]
         public int TipoMovimentoId { get; set; }
