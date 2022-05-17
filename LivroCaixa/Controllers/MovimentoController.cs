@@ -43,7 +43,7 @@ namespace LivroCaixa.Controllers
         {
             //ViewBag.IdMei = new SelectList(db.Meis, "IdMei", "Login");
             int mei = int.Parse(Session["mei"].ToString());
-            ViewBag.TipoMovimentoId = new SelectList(db.TipoMovimentoes, "tipoid", "descricao");
+            ViewBag.TipoMovimentoId = new SelectList(db.TipoMovimentoes.Where(t=>t.IdMei==mei), "tipoid", "descricao");
             Movimento movimento = new Movimento();
             movimento.IdMei = mei;
             return View(movimento);
@@ -67,7 +67,7 @@ namespace LivroCaixa.Controllers
             }
 
             ViewBag.IdMei = new SelectList(db.Meis, "IdMei", "Login", movimento.IdMei);
-            ViewBag.TipoMovimentoId = new SelectList(db.TipoMovimentoes, "tipoid", "descricao", movimento.TipoMovimentoId);
+            ViewBag.TipoMovimentoId = new SelectList(db.TipoMovimentoes.Where(t=>t.IdMei==mei), "tipoid", "descricao", movimento.TipoMovimentoId);
             return View(movimento);
         }
 
@@ -83,8 +83,9 @@ namespace LivroCaixa.Controllers
             {
                 return HttpNotFound();
             }
+            int mei = int.Parse(Session["mei"].ToString());
             ViewBag.IdMei = new SelectList(db.Meis, "IdMei", "Login", movimento.IdMei);
-            ViewBag.TipoMovimentoId = new SelectList(db.TipoMovimentoes, "tipoid", "descricao", movimento.TipoMovimentoId);
+            ViewBag.TipoMovimentoId = new SelectList(db.TipoMovimentoes.Where(t=>t.IdMei==mei), "tipoid", "descricao", movimento.TipoMovimentoId);
             return View(movimento);
         }
 
@@ -101,8 +102,9 @@ namespace LivroCaixa.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            int mei = int.Parse(Session["mei"].ToString());
             ViewBag.IdMei = new SelectList(db.Meis, "IdMei", "Login", movimento.IdMei);
-            ViewBag.TipoMovimentoId = new SelectList(db.TipoMovimentoes, "tipoid", "descricao", movimento.TipoMovimentoId);
+            ViewBag.TipoMovimentoId = new SelectList(db.TipoMovimentoes.Where(t=>t.IdMei==mei), "tipoid", "descricao", movimento.TipoMovimentoId);
             return View(movimento);
         }
 

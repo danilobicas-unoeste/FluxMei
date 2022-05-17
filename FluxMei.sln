@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluxMei", "FluxMei\FluxMei.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LivroCaixa", "LivroCaixa\LivroCaixa.csproj", "{A8B41A05-B8AB-4D7A-B9D6-7C3CE15E18A0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "teste", "teste\teste.csproj", "{7FF9F8AD-B6BE-4632-8322-FD5FB915BA0B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{A8B41A05-B8AB-4D7A-B9D6-7C3CE15E18A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A8B41A05-B8AB-4D7A-B9D6-7C3CE15E18A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A8B41A05-B8AB-4D7A-B9D6-7C3CE15E18A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FF9F8AD-B6BE-4632-8322-FD5FB915BA0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FF9F8AD-B6BE-4632-8322-FD5FB915BA0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FF9F8AD-B6BE-4632-8322-FD5FB915BA0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FF9F8AD-B6BE-4632-8322-FD5FB915BA0B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
