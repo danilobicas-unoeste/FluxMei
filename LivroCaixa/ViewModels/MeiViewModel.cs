@@ -21,6 +21,9 @@ namespace LivroCaixa.ViewModels
         [Display(Name = "Endereço")]
         public string Logradouto { get; set; }
         [StringLength(100)]
+        [Display(Name = "Cidade")]
+        public string Cidade { get; set; }
+        [StringLength(100)]
         [Display(Name = "CEP")]
         public string Cep { get; set; }
         [Required]

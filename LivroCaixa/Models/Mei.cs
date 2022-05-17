@@ -27,6 +27,9 @@ namespace LivroCaixa.Models
         [StringLength(100)]
         [Display(Name = "Endereço")]
         public string Logradouto { get; set; }
+        [StringLength(100)]
+        [Display(Name = "Cidade")]
+        public string Cidade { get; set; }
         [Required]
         [StringLength(14)]
         [Display(Name = "CNPJ")]
