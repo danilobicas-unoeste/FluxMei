@@ -4,8 +4,11 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using LivroCaixa.Filters;
 using LivroCaixa.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -17,6 +20,12 @@ namespace LivroCaixa.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         private ApplicationUserManager _userManager;
+        private readonly FirestoreProvider _firestoreProvider;
+
+        public MeiController(FirestoreProvider firestoreProvider)
+        {
+            _firestoreProvider = firestoreProvider;
+        }
 
         public ApplicationUserManager UserManager
         {
@@ -39,13 +48,14 @@ namespace LivroCaixa.Controllers
         }
 
         // GET: Mei/Details/5
-        public ActionResult Details(int? id)
+        public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Mei mei = db.Meis.Find(id);
+            //Mei mei = db.Meis.Find(id);
+            Mei mei = await _firestoreProvider.Get<Mei>(id.ToString());
             if (mei == null)
             {
                 return HttpNotFound();
@@ -77,6 +87,7 @@ namespace LivroCaixa.Controllers
         }
 
         // GET: Mei/Edit/5
+        [ValidateAntiModelInjection("IdMei")]
         public ActionResult Edit(int? id)
         {
             if (id == null)

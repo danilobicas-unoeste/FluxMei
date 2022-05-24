@@ -72,6 +72,7 @@ namespace LivroCaixa.Controllers
         }
 
         // GET: Movimento/Edit/5
+        [ValidateAntiModelInjection("IdMei")]
         public ActionResult Edit(decimal id)
         {
             if (id == null)
