@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Google.Cloud.Firestore;
+using LivroCaixa.Models;
+using SimpleInjector;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -16,6 +19,10 @@ namespace LivroCaixa
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            Container container = new Container();
+            container.Register<FirestoreProvider>();
+            container.Register<FirestoreDb>();
         }
         
         void Application_Error(object sender, EventArgs e)

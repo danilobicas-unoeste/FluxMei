@@ -10,11 +10,16 @@ namespace LivroCaixa.Models
 {
     public class FirestoreProvider
     {
+        string projectId;
         private readonly FirestoreDb _fireStoreDb = null;
 
         public FirestoreProvider(FirestoreDb fireStoreDb)
-        {
-            _fireStoreDb = fireStoreDb;
+        {                   
+            string arquivoApiKey = @"~/Resources/fluxodecaixa-9ccb8-4843de4d8709.json";
+            Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", arquivoApiKey);
+            projectId = "fluxodecaixa-9ccb8";
+            fireStoreDb = FirestoreDb.Create(projectId);
+            
         }
 
         public async Task AddOrUpdate<T>(T entity, CancellationToken ct) where T : IFirebaseEntity

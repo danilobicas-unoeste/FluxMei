@@ -8,7 +8,7 @@ using System.Web.Security;
 
 namespace LivroCaixa.Filters
 {
-    public class ValidateAntiModelInjectionAttribute : ActionFilterAttribute
+    public class ValidateAntiModelInjection : ActionFilterAttribute
     {
         /// <summary>
         /// The name of the property we are generating a hash for.
@@ -19,7 +19,7 @@ namespace LivroCaixa.Filters
         /// 
         /// </summary>
         /// <param name="propertyName">The name of the property from the form to validate against the hidden encrypted form version.</param>
-        public ValidateAntiModelInjectionAttribute(params string[] properties)
+        public ValidateAntiModelInjection(params string[] properties)
         {
             foreach (var property in properties) {
                 if (string.IsNullOrEmpty(property))
