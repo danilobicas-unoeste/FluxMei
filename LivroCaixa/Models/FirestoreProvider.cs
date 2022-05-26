@@ -1,25 +1,46 @@
-﻿using Google.Cloud.Firestore;
+﻿using Firebase.Auth;
+using Google.Cloud.Firestore;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Hosting;
 
 namespace LivroCaixa.Models
 {
     public class FirestoreProvider
     {
+        public string webApiKey = "AIzaSyDPO2Ft-G1H9Mlfdgo3xEVFaY1jDsOmZVY";
         string projectId;
+        private readonly FirebaseAuthProvider _firebaseAuthProvider;
         private readonly FirestoreDb _fireStoreDb = null;
 
-        public FirestoreProvider(FirestoreDb fireStoreDb)
+        public FirestoreProvider()
         {                   
-            string arquivoApiKey = @"~/Resources/fluxodecaixa-9ccb8-4843de4d8709.json";
+            string arquivoApiKey = HostingEnvironment.MapPath("~/Resources/fluxodecaixa-9ccb8-4843de4d8709.json");
             Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", arquivoApiKey);
             projectId = "fluxodecaixa-9ccb8";
-            fireStoreDb = FirestoreDb.Create(projectId);
-            
+            _fireStoreDb = FirestoreDb.Create(projectId);
+            _firebaseAuthProvider = new FirebaseAuthProvider(new FirebaseConfig(webApiKey));
+        }
+
+        public async Task<Object> Login(string email, string senha)
+        {
+            try
+            {
+                var auth = await _firebaseAuthProvider.SignInWithEmailAndPasswordAsync(email, senha);
+                var content = await auth.GetFreshAuthAsync();
+                var serializedContent = JsonConvert.SerializeObject(content);
+                return serializedContent;
+                //Preferences.Set("FreshFirebaseToken", serializedContent);
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public async Task AddOrUpdate<T>(T entity, CancellationToken ct) where T : IFirebaseEntity
@@ -53,6 +74,27 @@ namespace LivroCaixa.Models
         {
             var snapshot = await query.GetSnapshotAsync(ct);
             return snapshot.Documents.Select(x => x.ConvertTo<T>()).ToList();
+        }
+
+        public async Task<Usuarios> CadastrarNovoUsuario(string email, string password, string nome, string idmei)
+        {
+            Usuarios usuario;
+            
+            var auth = await _firebaseAuthProvider.CreateUserWithEmailAndPasswordAsync(email,password);
+            
+            string token = auth.FirebaseToken;
+            if (token != null)
+            {
+                usuario = new Usuarios();
+                usuario.Email = email;
+                usuario.Nome = nome;
+                usuario.Id = auth.User.LocalId;
+                usuario.IdMei = idmei;
+                CollectionReference collectionReference = _fireStoreDb.Collection("Usuarios");
+                await collectionReference.AddAsync(usuario);
+                return usuario;
+            }
+            return null;
         }
     }
 }

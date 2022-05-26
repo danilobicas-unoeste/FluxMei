@@ -54,8 +54,10 @@ namespace LivroCaixa.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            CancellationTokenSource cts = new CancellationTokenSource();
+            CancellationToken token = cts.Token;
             //Mei mei = db.Meis.Find(id);
-            Mei mei = await _firestoreProvider.Get<Mei>(id.ToString());
+            Mei mei = await _firestoreProvider.Get<Mei>(id.ToString(), token);
             if (mei == null)
             {
                 return HttpNotFound();

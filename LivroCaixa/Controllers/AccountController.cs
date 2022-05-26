@@ -9,25 +9,29 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using LivroCaixa.Models;
+using System.Threading;
+using LivroCaixa.Filters;
 
 namespace LivroCaixa.Controllers
 {
-    [Authorize]
+    
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private ApplicationDbContext db = new ApplicationDbContext();
+        private readonly FirestoreProvider _firestoreProvider;
 
-        public AccountController()
+        public AccountController(FirestoreProvider firestoreProvider)
         {
+            _firestoreProvider = firestoreProvider;
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
-        {
-            UserManager = userManager;
-            SignInManager = signInManager;
-        }
+        //public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        //{
+        //    UserManager = userManager;
+        //    SignInManager = signInManager;
+        //}
 
         public ApplicationSignInManager SignInManager
         {
@@ -76,34 +80,37 @@ namespace LivroCaixa.Controllers
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
+
+            //var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
             
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
-            switch (result)
+            try
             {
-                case SignInStatus.Success:
-                    {
-                        var usuario = db.Users.Where(u => u.Email == model.Email).FirstOrDefault();
-                        if ((usuario != null) && (usuario.IdMei > 0))
-                        {
-                            Session["mei"] = usuario.IdMei;
-                            Session["usuario"] = usuario.Nome;
-                            return RedirectToAction("IndexLogado", "Home");
-                        }
-                        else
-                        {
-                            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-                            return View("ErrorIdMeiNaoEncontrado");
-                        }
-                        break;
-                    }
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-                case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
+                CancellationTokenSource cts = new CancellationTokenSource();
+                CancellationToken token = cts.Token;
+                var result = await _firestoreProvider.Login(model.Email, model.Password);
+                if (result == null)
+                {
+                    ModelState.AddModelError("", "Tentativa de Login Inválida");
                     return View(model);
+                }
+                var usuario = (await _firestoreProvider.WhereEqualTo<Usuarios>("IdMei", result.ToString(), token)).First();
+                if ((usuario != null) && (usuario.IdMei != ""))
+                {
+
+                    Session["mei"] = usuario.IdMei;
+                    Session["usuario"] = usuario.Nome;
+                    return RedirectToAction("IndexLogado", "Home");
+                }
+                else
+                {
+                    AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+                    return View("ErrorIdMeiNaoEncontrado");
+                }                                
+            }
+            catch
+            {
+                ModelState.AddModelError("", "Erro ao consultar o serviço de login!!!");
+                return View(model);
             }
         }
 
@@ -153,9 +160,10 @@ namespace LivroCaixa.Controllers
         //
         // GET: /Account/Register
         [Authorize]
+        [ValidateAntiModelInjection("IdMei")]
         public ActionResult Register()
         {
-            int mei = int.Parse(Session["mei"].ToString());
+            string mei = Session["mei"].ToString();
             RegisterViewModel register = new RegisterViewModel();
             register.IdMei = mei;
             return View(register);
@@ -173,16 +181,16 @@ namespace LivroCaixa.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
+        [ValidateAntiModelInjection("IdMei")]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
-            int mei = int.Parse(Session["mei"].ToString());
+            string mei = Session["mei"].ToString();
             model.IdMei = mei;
             if (ModelState.IsValid)
-            {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Nome = model.Nome, IdMei=model.IdMei };
-                
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+            {                
+                var usuario = await _firestoreProvider.CadastrarNovoUsuario(model.Email, model.Password, model.Nome, model.IdMei);
+                                
+                if (usuario != null)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
@@ -194,7 +202,6 @@ namespace LivroCaixa.Controllers
 
                     return RedirectToAction("IndexLogado", "Home");
                 }
-                AddErrors(result);
             }
 
             // If we got this far, something failed, redisplay form

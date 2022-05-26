@@ -17,19 +17,12 @@ namespace LivroCaixa.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)] 
         [FirestoreProperty]
-        public int IdMei { get; set; }
-        [StringLength(100)]
-        [Display(Name = "Login")]
-        [FirestoreProperty]
-        public string Login { get; set; }
-        [FirestoreProperty]
-        public string Senha { get; set; }
+        public string IdMei { get; set; }        
         [Required]
         [StringLength(100)]
         [FirestoreProperty]
         [Display(Name = "Empresa")]
-        public string NomeEmpresa { get; set; }
-        
+        public string NomeEmpresa { get; set; }        
         [StringLength(100)]
         [FirestoreProperty]
         [Display(Name = "Endereço")]

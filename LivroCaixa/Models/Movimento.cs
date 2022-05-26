@@ -14,7 +14,7 @@ namespace LivroCaixa.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [FirestoreProperty]
-        public int IdMovimento { get; set; }
+        public string Id { get; set; }
         [Display(Name = "Descrição")]
         [FirestoreProperty]
         public string Descicao { get; set; }
@@ -39,15 +39,13 @@ namespace LivroCaixa.Models
         [Required]
         [Range(double.Epsilon, double.MaxValue,ErrorMessage ="Nenhum Mei está logado para associar este movimento")]
         [FirestoreProperty]
-        public int IdMei { get; set; }
+        public string IdMei { get; set; }
         [FirestoreProperty]
         public virtual Mei Mei { get; set; }
         /// <summary>
         /// usuário que fez o lançamento...
         /// </summary>
         [FirestoreProperty]
-        public string userName { get; set; }
-        [FirestoreProperty]
-        public string Id { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string userName { get; set; }        
     }
 }

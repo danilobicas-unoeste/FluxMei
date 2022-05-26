@@ -1,9 +1,12 @@
 ﻿using Google.Cloud.Firestore;
 using LivroCaixa.Models;
 using SimpleInjector;
+using SimpleInjector.Integration.Web;
+using SimpleInjector.Integration.Web.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
@@ -21,8 +24,12 @@ namespace LivroCaixa
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             Container container = new Container();
+            container.Options.DefaultScopedLifestyle = new WebRequestLifestyle();
             container.Register<FirestoreProvider>();
-            container.Register<FirestoreDb>();
+            //container.Register<FirestoreDb>();
+            container.RegisterMvcControllers(Assembly.GetExecutingAssembly());
+            container.Verify();
+            DependencyResolver.SetResolver(new SimpleInjectorDependencyResolver(container));
         }
         
         void Application_Error(object sender, EventArgs e)
