@@ -35,16 +35,25 @@
     @*<li>@Html.ActionLink("Principal", "Index", "Home")</li>*@
                     <li>@Html.ActionLink("Sobre", "About", "Home")</li>
                     <li>@Html.ActionLink("Contate-nos", "Contact", "Home")</li>
+                    <li class="divider"></li>
+                    <li><button name="increase-font" id="increase-font" title="Aumentar fonte" class="btn btn-secondary" style="margin-left: 0.5em; margin-top:0.5em;">A+</button></li>
+                    <li><button name="decrease-font" id="decrease-font" title="diminuir fonte" class="btn btn-secondary" style="margin-left: 1em; margin-top:0.5em;">A-</button></li>
                 </ul>
+
                 @Html.Partial("_LoginPartial")
             </div>
+        </div>
+        <div>
+            @*<span class="font-con">
+                <button id="click" class="btn btn-secondary ">Contraste</button>
+            </span>*@
         </div>
     </div>
     <div class="container body-content">
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - Todos os direitos reservados para - Projeto Integrador</p>
+            <p>&copy; @DateTime.Now.Year - Todos os direitos reservados para - Projeto Integrador II</p>
         </footer>
     </div>
 

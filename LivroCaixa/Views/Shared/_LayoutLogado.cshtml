@@ -33,19 +33,21 @@
                             <li class="divider"></li>
                             <li><a href="@Url.Action("Register","Account")"><span class="icon glyphicon glyphicon-heart-empty"></span> Novo Usuário</a></li>
                         </ul>
-                    </li>                
+                    </li>
                     <li class="dropdown">
                         <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                             <span class="icon glyphicon glyphicon-book"></span> Relatório <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="@Url.Action("Periodo","Relatorios")"><span class="icon glyphicon glyphicon-globe"></span> Por Período</a></li>
-                            
+
                         </ul>
                     </li>
-    @*<li>@Html.ActionLink("Principal", "Index", "Home")</li>*@
+                    @*<li>@Html.ActionLink("Principal", "Index", "Home")</li>*@
                     <li>@Html.ActionLink("Sobre", "About", "Home")</li>
                     <li>@Html.ActionLink("Contate-nos", "Contact", "Home")</li>
+                    <li><button name="increase-font" id="increase-font" title="Aumentar fonte" class="btn btn-secondary" style="margin-left: 0.5em; margin-top:0.5em;">A+</button></li>
+                    <li><button name="decrease-font" id="decrease-font" title="diminuir fonte" class="btn btn-secondary" style="margin-left: 1em; margin-top:0.5em;">A-</button></li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -55,7 +57,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - Todos os direitos reservados para - Projeto Integrador</p>
+            <p>&copy; @DateTime.Now.Year - Todos os direitos reservados para - Projeto Integrador II</p>
         </footer>
     </div>
 
